@@ -24,3 +24,12 @@ class CometRoster(ADatabase):
         except Exception as e:
             print(self.name,"fills",str(e))
     
+    def get_secrets(self,user):
+        try:
+            db = self.client[self.name]
+            table = db["coinbase_credentials"]
+            data = table.find({"username":user},{"_id":0},show_record_id=False)
+            return pd.DataFrame(list(data))
+        except Exception as e:
+            print(self.name,"fills",str(e))
+    
