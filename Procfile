@@ -1,0 +1,1 @@
+web: gunicorn --chdir comet_roster comet_roster.wsgi
