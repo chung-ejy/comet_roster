@@ -1,11 +1,9 @@
 from django.shortcuts import render
 from django.http.response import JsonResponse
-import pickle
 import pandas as pd
 import json
 from django.views.decorators.csrf import csrf_exempt
-from datetime import datetime, timedelta
-import requests
+from datetime import datetime
 from database.comet_roster import CometRoster
 import os
 from dotenv import load_dotenv

@@ -24,14 +24,15 @@ def rosterView(request):
                 complete = {"roster":[],"errors":"incorrect key"}
         elif request.method == "DELETE":
             complete = {}
-        elif request.method == "UPDATE":
-            info = json.loads(request.body.decode("utf-8"))
+        elif request.method == "PUT":
             if header_key == key:
+                info = json.loads(request.body.decode("utf-8"))
                 user = info["username"]
-                update= comet_roster.update_roster(user,info)
-                complete = update
+                update = comet_roster.update_roster(user,info)
+                info["acknowledge"] = update.acknowledged
+                complete = info
             else:
-                complete = {}
+                complete = {"error":"wrong key"}
         elif request.method == "POST":
             info = json.loads(request.body.decode("utf-8"))
             if header_key == key:

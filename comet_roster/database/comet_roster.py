@@ -24,12 +24,12 @@ class CometRoster(ADatabase):
         except Exception as e:
             print(self.name,"fills",str(e))
     
-    def update_roster(self,version,user,params):
+    def update_roster(self,user,params):
         try:
             db = self.client[self.name]
             table = db["roster"]
-            data = table.update_one({"username":user},params[["live","test"]],show_record_id=False)
-            return pd.DataFrame(list(data))
+            data = table.update_one({"username":user},{"$set":params})
+            return data
         except Exception as e:
             print(self.name,"fills",str(e))
     
