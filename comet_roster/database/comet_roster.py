@@ -33,3 +33,12 @@ class CometRoster(ADatabase):
         except Exception as e:
             print(self.name,"fills",str(e))
     
+    def get_bot_status(self,user):
+        try:
+            db = self.client[self.name]
+            table = db["roster"]
+            data = table.find({"username":user},{"_id":0},show_record_id=False)
+            return data
+        except Exception as e:
+            print(self.name,"fills",str(e))
+    

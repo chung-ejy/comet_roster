@@ -17,9 +17,15 @@ def rosterView(request):
         key = comet_roster.retrieve("roster_key").iloc[0]["key"]
         header_key = request.headers["x-api-key"]
         if request.method == "GET":
+            data_request = request.GET.get("data_request")
             if header_key == key:
-                roster = comet_roster.retrieve("roster")
-                complete = {"roster":roster.to_dict("records")}
+                if data_request == "bot_status":
+                    user = request.GET.get("username")
+                    bot_status = comet_roster.get_bot_status(user)
+                    complete = {"bot_status":bot_status}
+                else:
+                    roster = comet_roster.retrieve("roster")
+                    complete = {"roster":roster.to_dict("records")}
             else:
                 complete = {"roster":[],"errors":"incorrect key"}
         elif request.method == "DELETE":
