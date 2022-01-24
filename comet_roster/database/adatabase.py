@@ -1,6 +1,6 @@
 from pymongo import MongoClient, DESCENDING
 import pandas as pd
-from comet_utils.database.idatabase import IDatabase
+from database.idatabase import IDatabase
 import asyncio
 import certifi
 ca = certifi.where()

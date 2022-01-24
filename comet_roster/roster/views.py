@@ -1,12 +1,8 @@
 from django.shortcuts import render
 from django.http.response import JsonResponse
-import pickle
 import pandas as pd
 import json
 from django.views.decorators.csrf import csrf_exempt
-from datetime import datetime, timedelta
-import requests
-from pymongo import MongoClient
 from database.comet_roster import CometRoster
 import os
 from dotenv import load_dotenv
@@ -19,9 +15,9 @@ def rosterView(request):
     try:
         comet_roster.cloud_connect()
         key = comet_roster.retrieve("roster_key").iloc[0]["key"]
+        header_key = request.headers["x-api-key"]
         if request.method == "GET":
-            info = json.loads(request.body.decode("utf-8"))
-            if info["key"] == key:
+            if header_key == key:
                 roster = comet_roster.retrieve("roster")
                 complete = {"roster":roster.to_dict("records")}
             else:
@@ -32,7 +28,7 @@ def rosterView(request):
             complete = {}
         elif request.method == "POST":
             info = json.loads(request.body.decode("utf-8"))
-            if info["key"] == key:
+            if header_key == key:
                 result = {}
                 result["username"] = info["username"]
                 result["live"] = False
