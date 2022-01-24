@@ -38,7 +38,7 @@ class CometRoster(ADatabase):
             db = self.client[self.name]
             table = db["roster"]
             data = table.find({"username":user},{"_id":0},show_record_id=False)
-            return data
+            return pd.DataFrame(list(data))
         except Exception as e:
             print(self.name,"fills",str(e))
     
