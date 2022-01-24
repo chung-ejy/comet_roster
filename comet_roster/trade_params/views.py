@@ -34,7 +34,7 @@ def tradeParamsView(request):
                 trade_params.sort_values("date",inplace=True)
                 complete = {f"trade_params":trade_params.to_dict("records")[0]}
             else:
-                complete = {"roster":[],"errors":"incorrect key"}
+                complete = {"trade_params":{},"errors":"incorrect key"}
         elif request.method == "DELETE":
             complete = {}
         elif request.method == "UPDATE":
