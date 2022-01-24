@@ -24,12 +24,7 @@ def tradeParamsView(request):
             user = request.GET.get("username")
             version = request.GET.get("version")
             if key == header_key:
-                if version == "live":
-                    prefix = ""
-                    trade_params = comet_roster.get_user_trade_params(user)
-                else:
-                    prefix = "test_"
-                    trade_params = comet_roster.get_user_test_trade_params(user)
+                trade_params = comet_roster.get_user_trade_params(version,user)
                 trade_params["date"] = pd.to_datetime(trade_params["date"])
                 trade_params.sort_values("date",inplace=True)
                 complete = {f"trade_params":trade_params.to_dict("records")[0]}
@@ -42,17 +37,10 @@ def tradeParamsView(request):
         elif request.method == "POST":
             info = json.loads(request.body.decode("utf-8"))
             if header_key == key:
-                result = {}
-                if info["version"]=="live":
-                    prefix = ""
-                else:
-                    prefix = "test_"
-                for info_key in info.keys():
-                    if key not in ["key","version"]:
-                        result[info_key] = info[info_key]
-                result["date"] = datetime.now()
-                comet_roster.store(f"{prefix}trading_params",pd.DataFrame([result]))
-                complete = result
+                version = info["version"]
+                info["date"] = datetime.now()
+                comet_roster.store(f"{version}_trading_params",pd.DataFrame([info]))
+                complete = info
             else:
                 complete = {}
         else:

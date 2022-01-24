@@ -6,19 +6,10 @@ class CometRoster(ADatabase):
     def __init__(self,mongouser,mongokey):
         super().__init__("comet_roster",mongouser,mongokey)
     
-    def get_user_trade_params(self,user):
+    def get_user_trade_params(self,version,user):
         try:
             db = self.client[self.name]
-            table = db["trading_params"]
-            data = table.find({"username":user},{"_id":0},show_record_id=False)
-            return pd.DataFrame(list(data))
-        except Exception as e:
-            print(self.name,"fills",str(e))
-    
-    def get_user_test_trade_params(self,user):
-        try:
-            db = self.client[self.name]
-            table = db["test_trading_params"]
+            table = db[f"{version}_trading_params"]
             data = table.find({"username":user},{"_id":0},show_record_id=False)
             return pd.DataFrame(list(data))
         except Exception as e:
@@ -29,6 +20,15 @@ class CometRoster(ADatabase):
             db = self.client[self.name]
             table = db["coinbase_credentials"]
             data = table.find({"username":user},{"_id":0},show_record_id=False)
+            return pd.DataFrame(list(data))
+        except Exception as e:
+            print(self.name,"fills",str(e))
+    
+    def update_roster(self,version,user,params):
+        try:
+            db = self.client[self.name]
+            table = db["roster"]
+            data = table.update_one({"username":user},params[["live","test"]],show_record_id=False)
             return pd.DataFrame(list(data))
         except Exception as e:
             print(self.name,"fills",str(e))

@@ -25,7 +25,13 @@ def rosterView(request):
         elif request.method == "DELETE":
             complete = {}
         elif request.method == "UPDATE":
-            complete = {}
+            info = json.loads(request.body.decode("utf-8"))
+            if header_key == key:
+                user = info["username"]
+                update= comet_roster.update_roster(user,info)
+                complete = update
+            else:
+                complete = {}
         elif request.method == "POST":
             info = json.loads(request.body.decode("utf-8"))
             if header_key == key:
