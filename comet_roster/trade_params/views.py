@@ -11,7 +11,6 @@ load_dotenv()
 mongouser = os.getenv("MONGOUSER")
 mongokey = os.getenv("MONGOKEY")
 comet_roster = CometRoster(mongouser,mongokey)
-
 @csrf_exempt
 def tradeParamsView(request):
     try:

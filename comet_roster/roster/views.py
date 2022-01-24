@@ -22,12 +22,12 @@ def rosterView(request):
                 if data_request == "bot_status":
                     user = request.GET.get("username")
                     bot_status = comet_roster.get_bot_status(user)
-                    complete = {"bot_status":bot_status}
+                    complete = {"bot_status":bot_status.to_dict("records")}
                 else:
                     roster = comet_roster.retrieve("roster")
                     complete = {"roster":roster.to_dict("records")}
             else:
-                complete = {"roster":[],"errors":"incorrect key"}
+                complete = {"errors":"incorrect key"}
         elif request.method == "DELETE":
             complete = {}
         elif request.method == "PUT":
