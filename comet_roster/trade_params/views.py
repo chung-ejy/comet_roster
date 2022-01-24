@@ -24,7 +24,7 @@ def tradeParamsView(request):
                 trade_params = comet_roster.get_user_trade_params(version,user)
                 trade_params["date"] = pd.to_datetime(trade_params["date"])
                 trade_params.sort_values("date",inplace=True)
-                complete = {f"trade_params":trade_params.to_dict("records")}
+                complete = {f"trade_params":trade_params.to_dict("records")[0]}
             else:
                 complete = {"trade_params":{},"errors":"incorrect key"}
         elif request.method == "DELETE":
