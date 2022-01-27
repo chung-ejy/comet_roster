@@ -62,11 +62,11 @@ def rosterView(request):
                 trade_params = {
                     "signal":5
                     ,"req":5
-                    ,"retrack_days":7
+                    ,"retrack_days":1
                     ,"value":True,
-                    "conservative":True,
+                    "conservative":False,
                     "entry_strategy":"standard"
-                    ,"exit_strategy":"hold","sleep_time":600
+                    ,"exit_strategy":"hold"
                     ,"positions":5
                     ,"username":info["username"]
                     ,"version":"live"
@@ -75,12 +75,13 @@ def rosterView(request):
                 test_trade_params = {
                     "signal":5
                     ,"req":5
-                    ,"retrack_days":7
-                    ,"value":True
-                    ,"conservative":True,
+                    ,"retrack_days":1
+                    ,"value":True,
+                    "conservative":False,
                     "entry_strategy":"standard"
-                    ,"exit_strategy":"hold","sleep_time":600
-                    ,"positions":5,"username":info["username"]
+                    ,"exit_strategy":"hold"
+                    ,"positions":5
+                    ,"username":info["username"]
                     ,"version":"live"
                     ,"whitelist_symbols":["BTC"]
                 }
