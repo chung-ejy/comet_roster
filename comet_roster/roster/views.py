@@ -34,9 +34,14 @@ def rosterView(request):
             if header_key == key:
                 info = json.loads(request.body.decode("utf-8"))
                 user = info["username"]
-                update = comet_roster.update_roster(user,info)
-                info["acknowledge"] = update.acknowledged
-                complete = info
+                if info["data_request"] == "keys":
+                    update = comet_roster.update_roster(user,info)
+                    info["acknowledge"] = update.acknowledged
+                    complete = info[["username","acknowledge"]]
+                elif info["data_reqeust"] == "bot_status":
+                    update = comet_roster.update_roster(user,info)
+                    info["acknowledge"] = update.acknowledged
+                    complete = info
             else:
                 complete = {"error":"wrong key"}
         elif request.method == "POST":
@@ -46,7 +51,16 @@ def rosterView(request):
                 result["username"] = info["username"]
                 result["live"] = False
                 result["test"] = False
+                keys = {}
+                keys["username"] = info["username"]
+                keys["apikey"] = ""
+                keys["passphrase"] = ""
+                keys["secret"] = ""
+                keys["adnboxapikey"] = ""
+                keys["sandboxpassphrase"] = ""
+                keys["sandboxsecret"] = ""
                 comet_roster.store("roster",pd.DataFrame([result]))
+                comet_roster.store("coinbase_credentials",pd.DataFrame([keys]))
                 complete = result
             else:
                 complete = {}

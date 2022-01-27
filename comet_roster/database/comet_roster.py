@@ -10,10 +10,10 @@ class CometRoster(ADatabase):
         try:
             db = self.client[self.name]
             table = db[f"{version}_trading_params"]
-            data = table.find({"username":user},{"_id":0},show_record_id=False)
+            data = table.find({"username":user},{"_id":0},show_record_id=False).limit(10)
             return pd.DataFrame(list(data))
         except Exception as e:
-            print(self.name,"fills",str(e))
+            print(self.name,"roster",str(e))
     
     def get_secrets(self,user):
         try:
@@ -22,7 +22,7 @@ class CometRoster(ADatabase):
             data = table.find({"username":user},{"_id":0},show_record_id=False)
             return pd.DataFrame(list(data))
         except Exception as e:
-            print(self.name,"fills",str(e))
+            print(self.name,"roster",str(e))
     
     def update_roster(self,user,params):
         try:
@@ -31,7 +31,16 @@ class CometRoster(ADatabase):
             data = table.update_one({"username":user},{"$set":params})
             return data
         except Exception as e:
-            print(self.name,"fills",str(e))
+            print(self.name,"roster",str(e))
+    
+    def update_keys(self,user,params):
+        try:
+            db = self.client[self.name]
+            table = db["coinbase_credentials"]
+            data = table.update_one({"username":user},{"$set":params})
+            return data
+        except Exception as e:
+            print(self.name,"roster",str(e))
     
     def get_bot_status(self,user):
         try:
@@ -40,5 +49,5 @@ class CometRoster(ADatabase):
             data = table.find({"username":user},{"_id":0},show_record_id=False)
             return pd.DataFrame(list(data))
         except Exception as e:
-            print(self.name,"fills",str(e))
+            print(self.name,"roster",str(e))
     
