@@ -38,7 +38,7 @@ def rosterView(request):
                     update = comet_roster.update_roster(user,info)
                     info["acknowledge"] = update.acknowledged
                     complete = info[["username","acknowledge"]]
-                elif info["data_reqeust"] == "bot_status":
+                elif info["data_request"] == "bot_status":
                     update = comet_roster.update_roster(user,info)
                     info["acknowledge"] = update.acknowledged
                     complete = info
@@ -59,8 +59,35 @@ def rosterView(request):
                 keys["adnboxapikey"] = ""
                 keys["sandboxpassphrase"] = ""
                 keys["sandboxsecret"] = ""
+                trade_params = {
+                    "signal":5
+                    ,"req":5
+                    ,"retrack_days":7
+                    ,"value":True,
+                    "conservative":True,
+                    "entry_strategy":"standard"
+                    ,"exit_strategy":"hold","sleep_time":600
+                    ,"positions":5
+                    ,"username":info["username"]
+                    ,"version":"live"
+                    ,"whitelist_symbols":["BTC","ETH"]
+                }
+                test_trade_params = {
+                    "signal":5
+                    ,"req":5
+                    ,"retrack_days":7
+                    ,"value":True
+                    ,"conservative":True,
+                    "entry_strategy":"standard"
+                    ,"exit_strategy":"hold","sleep_time":600
+                    ,"positions":5,"username":info["username"]
+                    ,"version":"live"
+                    ,"whitelist_symbols":["BTC"]
+                }
                 comet_roster.store("roster",pd.DataFrame([result]))
                 comet_roster.store("coinbase_credentials",pd.DataFrame([keys]))
+                comet_roster.store("live_trading_params",pd.DataFrame([trade_params]))
+                comet_roster.store("test_trading_params",pd.DataFrame([test_trade_params]))
                 complete = result
             else:
                 complete = {}
