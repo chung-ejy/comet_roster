@@ -62,7 +62,7 @@ def rosterView(request):
                 trade_params = {
                     "signal":5
                     ,"req":5
-                    ,"retrack_days":1
+                    ,"retrack_days":30
                     ,"value":True,
                     "conservative":False,
                     "entry_strategy":"standard"
@@ -75,7 +75,7 @@ def rosterView(request):
                 test_trade_params = {
                     "signal":5
                     ,"req":5
-                    ,"retrack_days":1
+                    ,"retrack_days":30
                     ,"value":True,
                     "conservative":False,
                     "entry_strategy":"standard"
